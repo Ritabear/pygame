@@ -1,5 +1,4 @@
 import random
-import sys
 
 import pygame
 from game.bullet import Bullet
@@ -9,7 +8,7 @@ from game.player import Player
 # 初始化遊戲
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
-pygame.display.set_caption('天降怪獸：終極防線')
+pygame.display.set_caption('飛機大戰')
 
 # 加載資產
 bg_num = random.randint(1, 4)
@@ -50,7 +49,6 @@ def check_is_over():
         over_text = "Game Over"
         over_render = over_font.render(over_text, True, (255, 0, 0))
         screen.blit(over_render, (200, 250))
-
 # 設定遊戲的持續時間（60秒）
 game_duration = 60 * 1000  # 60 秒，轉換為毫秒
 start_time = pygame.time.get_ticks()  # 記錄遊戲開始的時間
@@ -106,36 +104,19 @@ while running:
     check_is_over()
     pygame.display.update()
 
-
-game_over_bg = pygame.image.load("assets/end.png")  # 載入遊戲結束背景圖片
-
 # 顯示遊戲結束畫面和分數
-screen.blit(game_over_bg, (0, 0))  # 將背景圖片顯示在螢幕上
-# screen.fill((0, 0, 0))  # 將背景設為黑色
+screen.fill((0, 0, 0))  # 將背景設為黑色
 font = pygame.font.SysFont(None, 55)  # 設定字體和大小
 game_over_text = font.render("Game Over", True, (255, 255, 255))  # 白色文字
 score_text = font.render(f"Your Score: {score}", True, (255, 255, 255))
 
 # 將文字顯示在螢幕上
-screen.blit(game_over_text, (screen.get_width() // 2 - game_over_text.get_width() // 2, screen.get_height()//2+50))
-screen.blit(score_text, (screen.get_width() // 2 - score_text.get_width() // 2, screen.get_height()//3+60))
+screen.blit(game_over_text, (screen.get_width() // 2 - game_over_text.get_width() // 2, screen.get_height() // 3))
+screen.blit(score_text, (screen.get_width() // 2 - score_text.get_width() // 2, screen.get_height() // 2))
 
 pygame.display.update()
 
-# 延遲一段時間或按下關閉按鈕退出遊戲
-delay = 15000  # 延遲 15 秒
-start_time = pygame.time.get_ticks()
-
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:  # 檢查是否按下了關閉按鈕
-            pygame.quit()
-            sys.exit()
-
-    # 檢查是否已經達到延遲時間
-    if pygame.time.get_ticks() - start_time >= delay:
-        break  # 時間到了，自動退出循環
-
-# 退出遊戲
+# 延遲一段時間後退出遊戲
+pygame.time.wait(30000)  # 等待 3 秒
 pygame.quit()
 sys.exit()
