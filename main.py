@@ -69,7 +69,7 @@ reset_game()
 running = True
 game_over = False  # 標記遊戲是否結束
 delay = 10000  # 10 秒延遲
-restart_delay = 0  # 用於計算重啟的延遲時間
+restart_delay = None  # 用於記錄遊戲結束後的時間點
 
 while running:
     if not game_over:
@@ -122,12 +122,12 @@ while running:
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:  # 按空白鍵重新開始
+                if event.key == pygame.K_a: # 按 'a'  鍵重新開始
                     reset_game()
                     game_over = False
 
         # 10 秒自動重啟
-        if pygame.time.get_ticks() - restart_delay >= delay:
+        if restart_delay and (pygame.time.get_ticks() - restart_delay >= delay):
             reset_game()
             game_over = False
 
