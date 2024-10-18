@@ -1,5 +1,6 @@
 import random
 import sys
+from time import sleep
 
 import pygame
 from game.bullet import Bullet
@@ -26,14 +27,15 @@ def load_assets():
 
 # 初始化遊戲狀態
 def reset_game():
-    global player, enemies, bullets, score, is_over, start_time, game_duration
+    global player, enemies, bullets, score, is_over, start_time, game_duration, game_over
     player = Player(400, 500)
     enemies = [Enemy() for _ in range(random.randint(6, 10))]  # 隨機生成敵人
     bullets = []
     score = 0
     is_over = False
+    game_over = False
     start_time = pygame.time.get_ticks()  # 記錄遊戲開始時間
-    game_duration = 60 * 1000  # 60 秒遊戲時間
+    game_duration = 15 * 1000  # 60 秒遊戲時間
 
 # 顯示分數
 font = pygame.font.Font('freesansbold.ttf', 32)
@@ -44,9 +46,12 @@ def show_score(score):
 
 # 遊戲結束檢查
 over_font = pygame.font.Font('freesansbold.ttf', 64)
-def check_is_over():
+def check_is_over(is_over,game_over):
     if is_over:
         show_game_over_screen()
+        sleep(10)
+        game_over = True
+    return game_over
         # over_render = over_font.render(over_text, True, (255, 0, 0))
         # screen.blit(over_render, (200, 250))
 
@@ -112,19 +117,17 @@ while running:
                 bullets.remove(bullet)
             bullet.draw(screen)
 
-        check_is_over()
+        game_over = check_is_over(is_over,game_over)
         pygame.display.update()
 
     else:
         show_game_over_screen()
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a: # 按 'a'  鍵重新開始
                     reset_game()
-                    game_over = False
 
         # 10 秒自動重啟
         if restart_delay and (pygame.time.get_ticks() - restart_delay >= delay):
