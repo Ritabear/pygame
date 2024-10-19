@@ -35,7 +35,7 @@ def reset_game():
     is_over = False
     game_over = False
     start_time = pygame.time.get_ticks()  # 記錄遊戲開始時間
-    game_duration = 15 * 1000  # 60 秒遊戲時間
+    game_duration = 60 * 1000  # 60 秒遊戲時間
 
 # 顯示分數
 font = pygame.font.Font('freesansbold.ttf', 32)
